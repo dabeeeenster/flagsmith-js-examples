@@ -1,0 +1,11 @@
+[project]
+name = "ab-test-simulation"
+version = "0.1.0"
+description = "A tool to simulate and visualize A/B test progression with cumulative conversion rates and confidence intervals."
+requires-python = ">=3.9"
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "scipy>=1.10.0",
+]

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peckham Credit Services - Apply Now</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, sans-serif; background: #f3f4f6; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); max-width: 480px; width: 100%; padding: 2rem; }
+        h1 { font-size: 1.4rem; margin-bottom: 0.25rem; }
+        .subtitle { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .variant-badge { display: inline-block; background: #e0e7ff; color: #4338ca; font-size: 0.7rem; padding: 2px 8px; border-radius: 9999px; margin-bottom: 1.5rem; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; color: #374151; margin-bottom: 0.3rem; }
+        input[type="text"], input[type="email"] {
+            width: 100%; padding: 0.6rem 0.75rem; border: 1px solid #d1d5db; border-radius: 8px;
+            font-size: 0.95rem; margin-bottom: 1rem; outline: none;
+        }
+        input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px rgba(99,102,241,0.15); }
+        .row { display: flex; gap: 1rem; }
+        .row > div { flex: 1; }
+        hr { border: none; border-top: 1px solid #e5e7eb; margin: 1.25rem 0; }
+
+        /* Variant A - simple checkbox */
+        .protection-a { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.75rem; background: #f9fafb; border-radius: 8px; margin-bottom: 1.25rem; cursor: pointer; }
+        .protection-a input[type="checkbox"] { margin-top: 3px; width: 16px; height: 16px; accent-color: #6366f1; }
+        .protection-a .text { font-size: 0.85rem; color: #374151; }
+        .protection-a .text span { color: #6b7280; font-size: 0.8rem; }
+
+        /* Variant B - prominent card */
+        .protection-b { border: 2px solid #6366f1; border-radius: 10px; padding: 1rem; margin-bottom: 1.25rem; background: linear-gradient(135deg, #eef2ff, #f5f3ff); position: relative; }
+        .protection-b .badge { position: absolute; top: -10px; right: 12px; background: #6366f1; color: white; font-size: 0.7rem; font-weight: 700; padding: 2px 10px; border-radius: 9999px; }
+        .protection-b h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .protection-b p { font-size: 0.8rem; color: #4b5563; margin-bottom: 0.75rem; line-height: 1.4; }
+        .protection-b .toggle-row { display: flex; align-items: center; justify-content: space-between; }
+        .protection-b .price { font-size: 0.85rem; font-weight: 600; color: #374151; }
+        .toggle { position: relative; width: 44px; height: 24px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle .slider { position: absolute; inset: 0; background: #d1d5db; border-radius: 9999px; cursor: pointer; transition: 0.2s; }
+        .toggle .slider::before { content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.2s; }
+        .toggle input:checked + .slider { background: #6366f1; }
+        .toggle input:checked + .slider::before { transform: translateX(20px); }
+
+        button[type="submit"] {
+            width: 100%; padding: 0.75rem; background: #6366f1; color: white; border: none;
+            border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.15s;
+        }
+        button[type="submit"]:hover { background: #4f46e5; }
+
+        /* Success page */
+        .success { text-align: center; padding: 2rem 1rem; }
+        .success .tick { font-size: 3rem; margin-bottom: 1rem; }
+        .success h1 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #059669; }
+        .success p { color: #6b7280; font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.5; }
+        .success .details { text-align: left; background: #f9fafb; border-radius: 8px; padding: 1rem; font-size: 0.85rem; color: #374151; }
+        .success .details div { display: flex; justify-content: space-between; padding: 0.3rem 0; }
+        .success .details div span:last-child { font-weight: 600; }
+        .btn-outline { display: inline-block; margin-top: 1.5rem; padding: 0.6rem 1.5rem; border: 2px solid #6366f1; color: #6366f1; border-radius: 8px; font-weight: 600; cursor: pointer; background: none; font-size: 0.9rem; }
+        .btn-outline:hover { background: #eef2ff; }
+    </style>
+</head>
+<body>
+    <div class="card" id="app"></div>
+
+    <script>
+        const characters = [
+            { first: "Derek", last: "Trotter", email: "del@trottersindependenttraders.co.uk", address: "127 Nelson Mandela House", city: "Peckham" },
+            { first: "Rodney", last: "Trotter", email: "rodney@trottersindependenttraders.co.uk", address: "127 Nelson Mandela House", city: "Peckham" },
+            { first: "Albert", last: "Trotter", email: "uncle.albert@trottersindependenttraders.co.uk", address: "127 Nelson Mandela House", city: "Peckham" },
+            { first: "Boycie", last: "Boyce", email: "boycie@boycecars.co.uk", address: "12 Kings Avenue", city: "Peckham" },
+            { first: "Trigger", last: "Ball", email: "trigger@peckhamcouncil.co.uk", address: "43 Eagle Lane", city: "Peckham" },
+            { first: "Marlene", last: "Boyce", email: "marlene@boycecars.co.uk", address: "12 Kings Avenue", city: "Peckham" },
+            { first: "Cassandra", last: "Trotter", email: "cassandra@parryprint.co.uk", address: "4 Harlech Tower", city: "Peckham" },
+            { first: "Mike", last: "Fisher", email: "mike@nagshead.co.uk", address: "The Nag's Head", city: "Peckham" },
+        ];
+
+        const person = characters[Math.floor(Math.random() * characters.length)];
+        const variant = Math.random() < 0.5 ? "A" : "B";
+
+        function renderForm() {
+            const protectionHTML = variant === "A"
+                ? `<label class="protection-a">
+                        <input type="checkbox" id="protection">
+                        <div class="text">Add Enhanced Payment Protection - &pound;3.99/mo<br><span>Covers missed payments due to illness or redundancy</span></div>
+                   </label>`
+                : `<div class="protection-b">
+                        <div class="badge">RECOMMENDED</div>
+                        <h3>Enhanced Payment Protection</h3>
+                        <p>Protect yourself against missed payments due to illness, injury, or redundancy. Peace of mind for just pennies a day.</p>
+                        <div class="toggle-row">
+                            <span class="price">&pound;3.99/month</span>
+                            <label class="toggle"><input type="checkbox" id="protection" checked><span class="slider"></span></label>
+                        </div>
+                   </div>`;
+
+            document.getElementById("app").innerHTML = `
+                <h1>Peckham Credit Services</h1>
+                <p class="subtitle">Credit Card Application</p>
+                <span class="variant-badge">Variant ${variant}</span>
+                <form id="form">
+                    <div class="row">
+                        <div><label for="first">First name</label><input type="text" id="first" value="${person.first}"></div>
+                        <div><label for="last">Last name</label><input type="text" id="last" value="${person.last}"></div>
+                    </div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="${person.email}">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" value="${person.address}">
+                    <label for="city">City</label>
+                    <input type="text" id="city" value="${person.city}">
+                    <hr>
+                    ${protectionHTML}
+                    <button type="submit">Submit Application</button>
+                </form>
+            `;
+
+            document.getElementById("form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                renderSuccess();
+            });
+        }
+
+        function renderSuccess() {
+            const hasProtection = document.getElementById("protection").checked;
+            document.getElementById("app").innerHTML = `
+                <div class="success">
+                    <div class="tick">&#10003;</div>
+                    <h1>Application Submitted</h1>
+                    <p>Nice work, ${person.first}. This time next year, you'll be a millionaire.</p>
+                    <div class="details">
+                        <div><span>Applicant</span><span>${person.first} ${person.last}</span></div>
+                        <div><span>Variant</span><span>${variant}</span></div>
+                        <div><span>Payment Protection</span><span>${hasProtection ? "Yes" : "No"}</span></div>
+                    </div>
+                    <button class="btn-outline" onclick="location.reload()">Start Over</button>
+                </div>
+            `;
+        }
+
+        renderForm();
+    </script>
+</body>
+</html>
